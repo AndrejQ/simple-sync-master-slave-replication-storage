@@ -47,7 +47,6 @@ public class DiscoveryAdapter {
     void start() throws ExecutionException, InterruptedException {
         try {
             curator.unwrap().create().forPath(MEMBERS_PATH);
-            curator.unwrap().create().forPath(MEMBERS_PATH);
         } catch (Exception e) {
             if (e instanceof KeeperException keeperException && keeperException.code() == NODEEXISTS) {
                 log.info(e.getMessage());
@@ -60,8 +59,6 @@ public class DiscoveryAdapter {
                 registerCurrentInstance(),
                 reactToMembersChange()
         ).get();
-
-        membersLatch.await();
     }
 
     private CompletableFuture<CompletionStage<Void>> reactToMembersChange() {
