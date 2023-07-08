@@ -1,0 +1,46 @@
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app1
+    environment:
+      INST: app1
+      ZOOKEEPER: my-zookeeper:2181
+    depends_on:
+      - zookeeper
+    networks:
+      - my-network
+  app2:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app2
+    environment:
+      INST: app2
+      ZOOKEEPER: my-zookeeper:2181
+    depends_on:
+      - zookeeper
+    networks:
+      - my-network
+  ## You can add many app instances
+  #  appN:                   <----
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile
+  #    container_name: appN  <----
+  #    environment:
+  #      INST: appN          <----
+  #      ZOOKEEPER: my-zookeeper:2181
+  #    depends_on:
+  #      - zookeeper
+  #    networks:
+  #      - my-network
+  zookeeper:
+    image: 'zookeeper'
+    container_name: my-zookeeper
+    networks:
+      - my-network
+networks:
+  my-network:
+    name: my-network
